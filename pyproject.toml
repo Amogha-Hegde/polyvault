@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "polyvault"
 version = "0.1.0"
-description = "PolyVault is a Python library that provides a unified interface for secrets management across multiple vault providers"
+description = "A common CRUD interface for secrets across files and vault providers"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
