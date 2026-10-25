@@ -13,6 +13,8 @@ from polyvault import PolyVault
 
 secrets = PolyVault()
 database_password = secrets.get_secret("database-password")
+# Missing secrets raise SecretNotFoundError unless a default is supplied.
+optional_value = secrets.get_secret("optional-setting", default="fallback")
 ```
 
 Set a different directory with `PolyVault(secret_dir="./secrets")`.

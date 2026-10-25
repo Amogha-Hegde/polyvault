@@ -1,10 +1,14 @@
 """The unified public interface for retrieving secrets."""
 
 from pathlib import Path
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from polyvault.backend.base import SecretBackend
 from polyvault.backend.file import FileBackend
+from polyvault.exceptions import SecretNotFoundError
+
+
+_DEFAULT_NOT_SET = object()
 
 
 class PolyVault:
@@ -21,7 +25,16 @@ class PolyVault:
     ):
         self.backend = backend if backend is not None else FileBackend(secret_dir)
 
-    def get_secret(self, name: str) -> str:
-        """Return the named secret as text."""
-        return self.backend.get_secret(name)
+    def get_secret(self, name: str, default: Any = _DEFAULT_NOT_SET) -> Any:
+        """Return a secret, or ``default`` if it is missing.
+
+        If no default is provided, a missing secret raises
+        :class:`SecretNotFoundError`.
+        """
+        try:
+            return self.backend.get_secret(name)
+        except SecretNotFoundError:
+            if default is _DEFAULT_NOT_SET:
+                raise
+            return default
 
