@@ -1,0 +1,11 @@
+[run]
+source = polyvault
+relative_files = True
+omit =
+    venv/*
+    *__init__.py
+
+[report]
+omit =
+    venv/*
+    *__init__.py
