@@ -15,7 +15,15 @@ secrets = PolyVault()
 database_password = secrets.get_secret("database-password")
 # Missing secrets raise SecretNotFoundError unless a default is supplied.
 optional_value = secrets.get_secret("optional-setting", default="fallback")
+
+secrets.create_secret("new-secret", "first value")
+secrets.update_secret("new-secret", "replacement value")
+secrets.delete_secret("new-secret")
 ```
+
+The file and environment backends support CRUD. Environment changes apply only
+to the current Python process. Vault/OpenBao's underlying `hvac` client is
+available as `secrets.backend.client` for Vault-specific APIs beyond CRUD.
 
 Set a different directory with `PolyVault(secret_dir="./secrets")`.
 

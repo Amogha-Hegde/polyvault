@@ -3,7 +3,7 @@
 import os
 
 from polyvault.backend.base import SecretBackend
-from polyvault.exceptions import SecretNotFoundError
+from polyvault.exceptions import SecretAlreadyExistsError, SecretNotFoundError
 
 
 class EnvBackend(SecretBackend):
@@ -16,6 +16,25 @@ class EnvBackend(SecretBackend):
         key = f"{self.prefix}{name}"
         try:
             return os.environ[key]
+        except KeyError as exc:
+            raise SecretNotFoundError(key) from exc
+
+    def create_secret(self, name: str, value: str) -> None:
+        key = f"{self.prefix}{name}"
+        if key in os.environ:
+            raise SecretAlreadyExistsError(key)
+        os.environ[key] = value
+
+    def update_secret(self, name: str, value: str) -> None:
+        key = f"{self.prefix}{name}"
+        if key not in os.environ:
+            raise SecretNotFoundError(key)
+        os.environ[key] = value
+
+    def delete_secret(self, name: str) -> None:
+        key = f"{self.prefix}{name}"
+        try:
+            del os.environ[key]
         except KeyError as exc:
             raise SecretNotFoundError(key) from exc
 

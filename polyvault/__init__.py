@@ -13,7 +13,9 @@ from polyvault.exceptions import (
     BackendConfigurationError,
     BackendDependencyError,
     PolyVaultError,
+    SecretAlreadyExistsError,
     SecretNotFoundError,
+    UnsupportedOperationError,
 )
 
 __all__ = [
@@ -26,6 +28,8 @@ __all__ = [
     "VaultBackend",
     "PolyVaultError",
     "SecretNotFoundError",
+    "SecretAlreadyExistsError",
     "BackendConfigurationError",
     "BackendDependencyError",
+    "UnsupportedOperationError",
 ]

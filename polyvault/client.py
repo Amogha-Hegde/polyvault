@@ -38,3 +38,15 @@ class PolyVault:
                 raise
             return default
 
+    def create_secret(self, name: str, value: str) -> None:
+        """Create a secret, failing if the name is already in use."""
+        self.backend.create_secret(name, value)
+
+    def update_secret(self, name: str, value: str) -> None:
+        """Replace the value of an existing secret."""
+        self.backend.update_secret(name, value)
+
+    def delete_secret(self, name: str) -> None:
+        """Delete a secret."""
+        self.backend.delete_secret(name)
+
